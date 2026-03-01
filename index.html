@@ -4,126 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>无限工作室 | INFINITY STUDIO</title>
-<!-- 使用稳定版本的Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com/3.3.0"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          primary: '#0ef',
-          secondary: '#f0a',
-          dark: '#050810',
-          light: '#f8fafc'
-        },
-        fontFamily: {
-          cyber: ['Orbitron', 'sans-serif']
-        }
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        primary: '#0ef',
+        secondary: '#f0a',
+        dark: '#050810',
+        light: '#f8fafc'
+      },
+      fontFamily: {
+        cyber: ['Orbitron', 'sans-serif']
       }
     }
   }
+}
 </script>
-<style>
+<style type="text/tailwindcss">
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+@layer utilities {
+  .scroll-smooth { scroll-behavior: smooth; }
+  .glass { background: rgba(5,8,16,0.85); backdrop-filter: blur(16px); }
+  .img-scale { transition: transform 0.4s ease; }
+  .img-scale:hover { transform: scale(1.08); }
+  .fade-in { animation: fadeIn 0.5s ease forwards; }
+  .slide-up { animation: slideUp 0.5s ease forwards; }
 
-.scroll-smooth { scroll-behavior: smooth; }
-.glass { background: rgba(5,8,16,0.85); backdrop-filter: blur(16px); }
-.img-scale { transition: transform 0.4s ease; }
-.img-scale:hover { transform: scale(1.08); }
-.fade-in { animation: fadeIn 0.5s ease forwards; opacity: 0; }
-.slide-up { animation: slideUp 0.5s ease forwards; opacity: 0; }
+  .scan-line {
+    position: relative;
+    overflow: hidden;
+  }
+  .scan-line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,238,255,0.08) 50%, transparent 100%);
+    animation: scan 5s linear infinite;
+  }
 
-.scan-line {
-  position: relative;
-  overflow: hidden;
-}
-.scan-line::after {
-  content: '';
-  position: absolute;
-  top: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0,238,255,0.08) 50%, transparent 100%);
-  animation: scan 5s linear infinite;
-}
+  .cyber-error-border {
+    position: relative;
+    z-index: 1;
+  }
+  .cyber-error-border::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 2px solid rgba(0,238,255,0.2);
+    box-shadow: 0 0 25px rgba(0,238,255,0.15);
+    pointer-events: none;
+    z-index: 9998;
+    animation: borderGlitch 3s infinite alternate ease-in-out;
+  }
+  @keyframes borderGlitch {
+    0% { border-color: rgba(0,238,255,0.2); box-shadow: 0 0 25px rgba(0,238,255,0.15); }
+    50% { border-color: rgba(255,0,170,0.25); box-shadow: 0 0 35px rgba(255,0,170,0.2); }
+    100% { border-color: rgba(0,238,255,0.2); box-shadow: 0 0 25px rgba(0,238,255,0.15); }
+  }
 
-.cyber-error-border {
-  position: relative;
-  z-index: 1;
-}
-.cyber-error-border::before {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border: 2px solid rgba(0,238,255,0.2);
-  box-shadow: 0 0 25px rgba(0,238,255,0.15);
-  pointer-events: none;
-  z-index: 9998;
-  animation: borderGlitch 3s infinite alternate ease-in-out;
-}
+  .neon {
+    color: #00cccc;
+    font-weight: 700;
+    opacity: 0.9;
+    animation: neon 3s infinite alternate ease-in-out;
+  }
+  @keyframes neon {
+    0%  { text-shadow: 0 0 8px rgba(0,238,255,0.4), 0 0 16px rgba(0,238,255,0.25); opacity: 0.85; }
+    100%{ text-shadow: 0 0 12px rgba(0,238,255,0.6), 0 0 24px rgba(0,238,255,0.35); opacity: 0.95; }
+  }
 
-.neon {
-  color: #00cccc;
-  font-weight: 700;
-  opacity: 0.9;
-  animation: neon 3s infinite alternate ease-in-out;
-}
+  .glitch {
+    position: relative;
+  }
+  .glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    color: #f0a;
+    opacity: 0.4;
+    animation: glitch 2.8s infinite alternate-reverse;
+  }
+  @keyframes glitch {
+    0%  { transform: translate(0, 0); }
+    15% { transform: translate(1px, 1px); }
+    35% { transform: translate(-1px, -1px); }
+    50% { transform: translate(0, 0); }
+    65% { transform: translate(1px, -1px); }
+    85% { transform: translate(-1px, 1px); }
+    100%{ transform: translate(0, 0); }
+  }
 
-.glitch {
-  position: relative;
-}
-.glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  color: #f0a;
-  opacity: 0.4;
-  animation: glitch 2.8s infinite alternate-reverse;
-}
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes scan {
+    0% { top: -100%; }
+    100% { top: 100%; }
+  }
+  .carousel-item { display: none; }
+  .carousel-item.active { display: block; animation: fadeIn 0.8s ease; }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
-@keyframes scan {
-  0% { top: -100%; }
-  100% { top: 100%; }
+  .cyber-border {
+    border: 1px solid rgba(0,238,255,0.3);
+    box-shadow: 0 0 12px rgba(0,238,255,0.15);
+  }
+  .cyber-card:hover {
+    box-shadow: 0 0 20px rgba(0,238,255,0.25);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
 }
-@keyframes borderGlitch {
-  0% { border-color: rgba(0,238,255,0.2); box-shadow: 0 0 25px rgba(0,238,255,0.15); }
-  50% { border-color: rgba(255,0,170,0.25); box-shadow: 0 0 35px rgba(255,0,170,0.2); }
-  100% { border-color: rgba(0,238,255,0.2); box-shadow: 0 0 25px rgba(0,238,255,0.15); }
-}
-@keyframes neon {
-  0%  { text-shadow: 0 0 8px rgba(0,238,255,0.4), 0 0 16px rgba(0,238,255,0.25); opacity: 0.85; }
-  100%{ text-shadow: 0 0 12px rgba(0,238,255,0.6), 0 0 24px rgba(0,238,255,0.35); opacity: 0.95; }
-}
-@keyframes glitch {
-  0%  { transform: translate(0, 0); }
-  15% { transform: translate(1px, 1px); }
-  35% { transform: translate(-1px, -1px); }
-  50% { transform: translate(0, 0); }
-  65% { transform: translate(1px, -1px); }
-  85% { transform: translate(-1px, 1px); }
-  100%{ transform: translate(0, 0); }
-}
-
-.carousel-item { display: none; }
-.carousel-item.active { display: block; animation: fadeIn 0.8s ease; }
-
-.cyber-border {
-  border: 1px solid rgba(0,238,255,0.3);
-  box-shadow: 0 0 12px rgba(0,238,255,0.15);
-}
-.cyber-card:hover {
-  box-shadow: 0 0 20px rgba(0,238,255,0.25);
-  transform: translateY(-5px);
-  transition: all 0.3s ease;
-}
-
-.hidden { display: none !important; }
 </style>
 </head>
 <body class="bg-dark text-light antialiased cyber-error-border">
@@ -139,7 +136,7 @@
       <a href="#install" class="hover:text-primary transition-colors">下载作品</a>
       <a href="#team" class="hover:text-primary transition-colors">团队</a>
       <a href="#forum" class="hover:text-primary transition-colors">论坛</a>
-      <button id="themeBtn" class="px-3 py-1 rounded bg-gray-900 text-sm hover:brightness-125 transition">亮色</button>
+      <button id="themeBtn" class="px-3 py-1 rounded bg-gray-900 text-sm hover:brightness-125 transition"></button>
       <button id="adminBtn" class="px-3 py-1 rounded bg-secondary text-white text-sm hover:brightness-125 transition hidden">管理</button>
       <button id="loginToggle" class="px-4 py-2 rounded bg-primary text-dark font-medium hover:brightness-110 transition">登录</button>
     </div>
@@ -155,7 +152,7 @@
     <a href="#install" class="py-2 hover:text-primary">下载作品</a>
     <a href="#team" class="py-2 hover:text-primary">团队</a>
     <a href="#forum" class="py-2 hover:text-primary">论坛</a>
-    <button id="mobileTheme" class="py-2 bg-gray-900 rounded text-sm">亮色</button>
+    <button id="mobileTheme" class="py-2 bg-gray-900 rounded text-sm"></button>
     <button id="mobileAdmin" class="py-2 bg-secondary text-white rounded text-sm hidden">管理</button>
     <button id="mobileLogin" class="py-2 bg-primary text-dark rounded">登录</button>
   </div>
